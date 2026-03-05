@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission
-
+from django.utils import timezone
+from .models import Post
 class OnlySpecificUsersDelete(BasePermission):
 
     def has_permission(self, request, view):
@@ -13,3 +14,22 @@ class OnlySpecificUsersDelete(BasePermission):
             # return request.user.id in [1, 5] #user id not database id
             return obj.id in [3,5] # used in database id
         return True
+    
+# User Can Create Only 5 Posts Per Day
+
+# class DailyPostLimit(BasePermission):
+
+#     def has_permission(self, request, view):
+
+#         if request.method == "POST":
+
+#             today = timezone.now().date()
+
+#             count = Post.objects.filter(
+#                 user=request.user,
+#                 created_at__date=today
+#             ).count()
+
+#             return count < 5
+
+#         return True
