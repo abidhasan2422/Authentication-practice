@@ -3,14 +3,14 @@ from .models import Student
 from .serializers import StudentSerializer
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,DestroyModelMixin,UpdateModelMixin
-from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly,AllowAny,IsAuthenticated,IsAdminUser
 
 
 class LCStudentAPI(GenericAPIView,ListModelMixin,CreateModelMixin):
     queryset= Student.objects.all()
     serializer_class = StudentSerializer
-    authentication_classes=[BasicAuthentication]
+    authentication_classes=[SessionAuthentication]
     permission_classes=[IsAuthenticated]
     def get(self,request,*args, **kwargs):
         return self.list(request, *args,**kwargs)
@@ -20,8 +20,8 @@ class LCStudentAPI(GenericAPIView,ListModelMixin,CreateModelMixin):
 class UDRStudentAPI(GenericAPIView,UpdateModelMixin,RetrieveModelMixin,DestroyModelMixin):
      queryset = Student.objects.all()
      serializer_class= StudentSerializer
-     authentication_classes=[BasicAuthentication]
-     permission_classes=[IsAuthenticated]
+     authentication_classes=[SessionAuthentication]
+     permission_classes=[IsAuthenticatedOrReadOnly]
 
      def get(self,request,*args, **kwargs):
          return self.retrieve(request,*args, **kwargs)
