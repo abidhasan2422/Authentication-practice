@@ -5,7 +5,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,DestroyModelMixin,UpdateModelMixin
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly,AllowAny,IsAuthenticated,IsAdminUser
-
+from .custompermissions import OnlySpecificUsersDelete
 
 class LCStudentAPI(GenericAPIView,ListModelMixin,CreateModelMixin):
     queryset= Student.objects.all()
@@ -21,7 +21,7 @@ class UDRStudentAPI(GenericAPIView,UpdateModelMixin,RetrieveModelMixin,DestroyMo
      queryset = Student.objects.all()
      serializer_class= StudentSerializer
      authentication_classes=[SessionAuthentication]
-     permission_classes=[IsAuthenticatedOrReadOnly]
+     permission_classes=[OnlySpecificUsersDelete]
 
      def get(self,request,*args, **kwargs):
          return self.retrieve(request,*args, **kwargs)
